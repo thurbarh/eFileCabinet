@@ -1,31 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Solutions\\DMS\\DocumentServer\\DocumentServer.csproj": {}
+    "C:\\Users\\adegs\\source\\repos\\thurbarh\\eFileCabinet\\DocumentServer.csproj": {}
   },
   "projects": {
-    "C:\\Solutions\\DMS\\DocumentServer\\DocumentServer.csproj": {
+    "C:\\Users\\adegs\\source\\repos\\thurbarh\\eFileCabinet\\DocumentServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Solutions\\DMS\\DocumentServer\\DocumentServer.csproj",
+        "projectUniqueName": "C:\\Users\\adegs\\source\\repos\\thurbarh\\eFileCabinet\\DocumentServer.csproj",
         "projectName": "DocumentServer",
-        "projectPath": "C:\\Solutions\\DMS\\DocumentServer\\DocumentServer.csproj",
-        "packagesPath": "C:\\Users\\atoba\\.nuget\\packages\\",
-        "outputPath": "C:\\Solutions\\DMS\\DocumentServer\\obj\\",
+        "projectPath": "C:\\Users\\adegs\\source\\repos\\thurbarh\\eFileCabinet\\DocumentServer.csproj",
+        "packagesPath": "C:\\Users\\adegs\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adegs\\source\\repos\\thurbarh\\eFileCabinet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\atoba\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 18.2.config",
+          "C:\\Users\\adegs\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 18.2\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -48,6 +46,26 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[5.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.6, )"
             }
           },
           "imports": [
@@ -68,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
