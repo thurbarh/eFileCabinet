@@ -9,10 +9,11 @@
 	===============================
 */
 .widget-content-area {
-  background-color: #3b3f5c;
-  -webkit-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
-  -moz-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06); }
+    background-color: #191e3a;
+    -webkit-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.0901961), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
+}
 
 .no-content:before, .no-content:after {
   display: none !important; }
@@ -72,10 +73,11 @@ table.dataTable {
   text-transform: uppercase; }
 
 .table > tbody > tr > td {
-  border: none;
-  color: #d3d3d3;
-  font-size: 13px;
-  letter-spacing: 1px; }
+    border: none;
+    color: #ffffff;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: transparent !important; }

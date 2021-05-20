@@ -1,0 +1,19 @@
+{
+  "runtimeOptions": {
+    "tfm": "net5.0",
+    "framework": {
+      "name": "Microsoft.AspNetCore.App",
+      "version": "5.0.0"
+    },
+    "additionalProbingPaths": [
+      "C:\\Users\\adegs\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\adegs\\.nuget\\packages",
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "configProperties": {
+      "System.GC.Server": true,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,
+      "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
+    }
+  }
+}

@@ -10,7 +10,7 @@
 */
 .custom-file-container {
   box-sizing: border-box;
-  position: center;
+  position: relative;
   display: block; }
   .custom-file-container label {
     color: #1b55e2; }
@@ -21,7 +21,7 @@
   box-sizing: border-box;
   position: relative;
   display: inline-block;
-  width: 100%;
+  width: 35%;
   height: calc(2.25rem + 2px);
   margin-bottom: 0;
   margin-top: 5px; }
@@ -31,14 +31,13 @@
 .custom-file-container__custom-file__custom-file-input {
   box-sizing: border-box;
   min-width: 14rem;
-  max-width: 100%;
+  max-width: 20%;
   height: calc(2.25rem + 2px);
   margin: 0;
   opacity: 0; }
   .custom-file-container__custom-file__custom-file-input:focus ~ span {
     outline: 1px dotted #515365;
     outline: 5px auto -webkit-focus-ring-color; }
-
 .custom-file-container__custom-file__custom-file-control {
   box-sizing: border-box;
   position: absolute;
@@ -122,22 +121,17 @@
   color: #1b55e2;
   display: block;
   margin-top: -2px; }
+
 .custom-description-container-control {
-    box-sizing: border-box;
-    
    
-    margin-top:20px;
-    right: 0;
-    left: 0;
-    z-index: 5;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
+       margin-top: 10px;
+       position:center;
+   
+  
+    
+    width: 20%;
     line-height: 1.5;
-    user-select: none;
-    background-clip: padding-box;
     border-radius: .25rem;
-    height: auto;
     border: 1px solid #f1f2f3;
     color: #3b3f5c;
     font-size: 15px;
@@ -145,8 +139,13 @@
     letter-spacing: 1px;
     background-color: #f1f2f3;
 }
+
 .btn.uploadbtn {
-    margin-top: 20px;
+    margin-left:10px;
+    margin-top: 10px;
     color: #f5f5f5;
     background-color: #3b3f5c;
+}
+.empty-files-table {
+    color: #f5f5f5;
 }

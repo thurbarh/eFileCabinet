@@ -18,7 +18,7 @@
     <link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables-dark.css">
+    
     <link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style-dark.css">
     <link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
     <link href="plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
@@ -37,7 +37,7 @@
 
         <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
-            <div class="container">
+            <div class="container" style="position:center">
                 <div class="container">
 
                     @if (ViewBag.Message != null)
@@ -50,55 +50,54 @@
 
                     <div class="custom-file-container" data-upload-id="mySecondImage">
 
-                       
-                           
+
+
                         <form method="post" enctype="multipart/form-data">
 
                             <div class="custom-file-container" data-upload-id="mySecondImage">
                                 <label><a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image"></a></label>
                                 <label class="custom-file-container__custom-file">
-                                    <input type="file" name="files" class="custom-file-container__custom-file__custom-file-input" multiple>
-                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                    <input type="file" name="files" class="upload-file" multiple required>
+
                                 </label>
-                                <div class="row">
-                                    <div class="col-10">
+                                <div class="">
+                                    <div class="row">
                                         <input type="text" class="custom-description-container-control" autocomplete="off" placeholder="Enter File Description" name="description" />
 
-
+                                        <button class="btn uploadbtn" type="submit" asp-controller="File" asp-action="Upload">Upload</button>
                                     </div>
-                                    <button class="btn uploadbtn col-2" type="submit" asp-controller="File" asp-action="Upload">Upload</button>
+
                                 </div>
                                 <div hidden class="custom-file-container__image-preview"></div>
                             </div>
-                           
-                           
+
+
                         </form>
-              
+
 
                     </div>
-                   
+
 
 
 
                 </div>
 
             </div>
-
             <div class="layout-px-spacing">
 
                 <div class="row layout-top-spacing" id="cancel-row">
 
-                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="  layout-spacing">
                         <div class="widget-content widget-content-area br-6" style="font-size: large;">
                             @if (Model.Files.Count == 0)
                             {
-                                <caption>No File Uploaded</caption>
+                                <h5 class="empty-files-table">No File(s) Uploaded</h5>
                             }
                             else
                             {
-                                <div class="table-responsive mb-4 mt-4">
+                                <div class="table-responsive ">
 
-                                    <table id="zero-config" class="table table-hover" style="width:100%">
+                                    <table id="zero-config" class="table" style="width:100%">
                                         <thead>
                                             <tr>
 
@@ -107,6 +106,7 @@
                                                 <th>Size(bytes)</th>
                                                 <th>Date Added</th>
                                                 <th>Action</th>
+                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -122,8 +122,10 @@
                                                     <td>@file.Size_in_Bytes</td>
                                                     <td>@file.DateAdded</td>
                                                     <td>
-                                                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFile" asp-route-id="@file.Id">Download</a>
-                                                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFile" asp-route-id="@file.Id">Delete</a>
+                                                        <a type="button" class="btn btn-primary btn-sm" asp-controller="File" asp-action="DownloadFile" asp-route-id="@file.Id">Download</a>
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" class="btn btn-danger btn-sm" asp-controller="File" asp-action="DeleteFile" asp-route-id="@file.Id">Delete</a>
                                                     </td>
                                                 </tr>
 
@@ -131,15 +133,16 @@
                                         </tbody>
 
                                     </table>
-                                    
+
                                 </div>
                             }
-                            </div>
+                        </div>
                     </div>
 
                 </div>
 
             </div>
+
 
             <!--  END CONTENT AREA  -->
 

@@ -47,11 +47,17 @@ namespace DocumentServer.Controllers
                 {
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        await file.CopyToAsync(stream);
+                       await  file.CopyToAsync(stream);
+                    }
+                    string outputFile = Path.Combine(basePath, Guid.NewGuid().ToString());
+                 
+                    EncryptFile.Encrypt(filePath, outputFile);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
                     }
                     var fileModel = new FileModel
                     {
-
                         Name = fileName,
                         DateAdded = DateTime.Now,
                         FilePath = filePath,
@@ -61,12 +67,13 @@ namespace DocumentServer.Controllers
                         User_File_GroupId= 1,
                         Size_in_Bytes = int.Parse(file.Length.ToString()),
                         Description = description,
-
-                        FileName = fileName,
+                        FileName = outputFile,
                     };
                     db.File.Add(fileModel);
                     db.SaveChanges();
+                   
                 }
+                 
             }
             TempData["Message"] = "File successfully uploaded to File System.";
             return RedirectToAction("Index");
@@ -75,6 +82,7 @@ namespace DocumentServer.Controllers
         {
 
             var file = await db.File.Where(x => x.Id == id).FirstOrDefaultAsync();
+            EncryptFile.Decrypt(file.FileName, file.FilePath);
             var extension = Path.GetExtension(file.FilePath);
             if (file == null) return null;
             var memory = new MemoryStream();
@@ -83,22 +91,32 @@ namespace DocumentServer.Controllers
                 await stream.CopyToAsync(memory);
             }
             memory.Position = 0;
+
+            EncryptFile.Encrypt(file.FileName, file.FilePath);
+            if (System.IO.File.Exists(file.FilePath))
+            {
+                System.IO.File.Delete(file.FilePath);
+            }
             return File(memory, file.ContentType, file.Name + extension);
+          
 
         }
         public async Task<IActionResult> DeleteFile(int id)
         {
 
             var file = await db.File.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (file == null) return null;
-            if (System.IO.File.Exists(file.FilePath))
+            if (file != null)
             {
-                System.IO.File.Delete(file.FilePath);
+
+                if (System.IO.File.Exists(file.FileName))
+                {
+                    System.IO.File.Delete(file.FileName);
+                }
+                var extension = Path.GetExtension(file.FilePath);
+                db.File.Remove(file);
+                db.SaveChanges();
+                TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
             }
-            var extension = Path.GetExtension(file.FilePath);
-            db.File.Remove(file);
-            db.SaveChanges();
-            TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
             return RedirectToAction("Index");
         }
 
