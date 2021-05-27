@@ -19,7 +19,14 @@
     <link href="~/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/dashboard/dash_2.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-
+    <!-- UPLOAD FILES STYLE -->
+    <link href="~/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+    <link href="~/plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
+    <!-- UPLOAD FILES -->
+    <!-- fILE DATA TABLE STYLES -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables-dark.css">*@
+    <!--<link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style-dark.css">-->    <!--  STYLES -->
 </head>
 <body class="alt-menu sidebar-noneoverflow">
     <!-- BEGIN LOADER -->
@@ -38,17 +45,12 @@
             <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></a>
 
             <div class="nav-logo align-self-center">
-                <a class="navbar-brand" href="index.html"><img alt="logo" src="~/assets/img/90x90.jpg"> <span class="navbar-brand-name">CORK</span></a>
+                <a class="navbar-brand" href="index.html"><img alt="logo" src="~/assets/img/90x90.jpg"> <span class="navbar-brand-name">e-File Cabinet</span></a>
             </div>
 
             <ul class="navbar-item flex-row mr-auto">
                 <li class="nav-item align-self-center search-animated">
-                    <form class="form-inline search-full form-inline search" role="search">
-                        <div class="search-bar">
-                            <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
-                        </div>
-                    </form>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search toggle-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    
                 </li>
             </ul>
 
@@ -282,7 +284,7 @@
                             <li>
                                 <a href="apps_todoList.html"> Manage Users </a>
                             </li>
-                            
+
                         </ul>
                     </li>
 
@@ -301,7 +303,7 @@
                             <li>
                                 <a href="component_accordion.html"> Manage Roles  </a>
                             </li>
-                           
+
                         </ul>
                     </li>
 
@@ -327,7 +329,7 @@
                             <li>
                                 <a href="ui_breadcrumbs.html"> Roles </a>
                             </li>
-                           </ul>
+                        </ul>
                     </li>
 
                     <li class="menu single-menu">
@@ -339,7 +341,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </a>
                         <ul class="collapse submenu list-unstyled" id="tables" data-parent="#topAccordion">
-                          
+
                             <li>
                                 <a href="table_dt_basic.html"> My Account </a>
                             </li>
@@ -352,14 +354,16 @@
                             <li>
                                 <a href="table_dt_multi-column_ordering.html"> Log out </a>
                             </li>
-                                                        
+
                         </ul>
                     </li>
 
-                  
+
                 </ul>
             </nav>
         </div>
+        </div>
+       
         <!--  END TOPBAR  -->
         <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
@@ -367,39 +371,43 @@
 
                 @RenderBody()
 
-                <div class="footer-wrapper">
-                    <div class="footer-section f-section-1">
-                        <p class="">Copyright © 2020 <a target="_blank" href="https://designreset.com">DesignReset</a>, All rights reserved.</p>
-                    </div>
-                    <div class="footer-section f-section-2">
-                        <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-                    </div>
-                </div>
 
+
+                </>
             </div>
-        </div>
-        <!--  END CONTENT PART  -->
+            <!--  END CONTENT PART  -->
 
-    </div>
-    <!-- END MAIN CONTAINER -->
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="~/assets/js/libs/jquery-3.1.1.min.js"></script>
-    <script src="~/bootstrap/js/popper.min.js"></script>
-    <script src="~/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="~/assets/js/app.js"></script>
-    <script>
-        $(document).ready(function () {
-            App.init();
-        });
-    </script>
-    <script src="~/assets/js/custom.js"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    <script src="~/plugins/apex/apexcharts.min.js"></script>
-    <script src="~/assets/js/dashboard/dash_2.js"></script>
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    @await RenderSectionAsync("Scripts", required: false)
+        </div>
+        <!-- END MAIN CONTAINER -->
+        <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+        <script src="~/assets/js/libs/jquery-3.1.1.min.js"></script>
+        <script src="~/bootstrap/js/popper.min.js"></script>
+        <script src="~/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script src="~/assets/js/app.js"></script>
+        <script>
+            $(document).ready(function () {
+                App.init();
+            });
+        </script>
+        <script src="~/assets/js/custom.js"></script>
+        <!-- END GLOBAL MANDATORY SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+        <script src="~/plugins/apex/apexcharts.min.js"></script>
+        <script src="~/assets/js/dashboard/dash_2.js"></script>
+        <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+        <!-- File Upload Scripts -->
+        <script src="~/assets/js/scrollspyNav.js"></script>
+        <script src="~/plugins/file-upload/file-upload-with-preview.min.js"></script>
+
+        <script>
+                //First upload
+
+        </script>
+        <!-- PLUGINS -->
+
+        @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
 

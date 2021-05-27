@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DocumentServer.Models.ViewModels
 {
-    public class FilesListViewModel
+    public class UserListViewModel
     {
-        public List<FileModel> Files { get; set; }
+        public List<UserViewModel> Users { get; set; }
     }
 }

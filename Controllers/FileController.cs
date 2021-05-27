@@ -20,11 +20,49 @@ namespace DocumentServer.Controllers
         {
             this.db = db;
         }
-        private async Task<FilesListViewModel> LoadAllFiles()
+
+        public async Task<UploadViewModel> LoadAllFiles()
         {
-            var viewModel = new FilesListViewModel();
-            viewModel.Files = await db.File.ToListAsync();
-            return viewModel;
+
+            var model = new UploadViewModel();
+
+            model.Files = await db.File.Select(x => new FileViewModel()
+           
+            {
+                Id= x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Size_in_Bytes = x.Size_in_Bytes,
+                DateAdded = x.DateAdded
+
+
+
+            }).ToListAsync();
+
+            return model;
+        }
+        [HttpGet]
+        public IActionResult GetAllFiles()
+        {
+
+           
+
+            var model = db.File.Select(x => new 
+
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Size_in_Bytes = x.Size_in_Bytes,
+                DateAdded = x.DateAdded.ToString("D")
+
+
+
+            }).ToList();
+
+         
+            
+            return Json (new { data = model});
         }
         public async Task<IActionResult> Index()
         {
@@ -49,14 +87,15 @@ namespace DocumentServer.Controllers
                     {
                        await  file.CopyToAsync(stream);
                     }
-                    string outputFile = Path.Combine(basePath, Guid.NewGuid().ToString());
+                    string newName = Guid.NewGuid().ToString() + ".sbs";
+                    string outputFile = Path.Combine(basePath, newName);
                  
                     EncryptFile.Encrypt(filePath, outputFile);
                     if (System.IO.File.Exists(filePath))
                     {
                         System.IO.File.Delete(filePath);
                     }
-                    var fileModel = new FileModel
+                    var fileModel = new Models.File
                     {
                         Name = fileName,
                         DateAdded = DateTime.Now,

@@ -13,7 +13,9 @@ namespace DocumentServer.Data
             : base(options)
         {
         }
-        public DbSet<FileModel> File { get; set; }
-        
+        public DbSet<File> File { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
     }
 }
