@@ -21,7 +21,7 @@ namespace DocumentServer.Models.ViewModels
         [Required]
         public int FileTypeId { get; set; }
         [Required]
-        public int User_File_GroupId { get; set; }
+        public int UserGroupId { get; set; }
         [Required]
         public int Size_in_Bytes { get; set; }
 

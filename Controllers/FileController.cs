@@ -21,33 +21,14 @@ namespace DocumentServer.Controllers
             this.db = db;
         }
 
-        public async Task<UploadViewModel> LoadAllFiles()
-        {
-
-            var model = new UploadViewModel();
-
-            model.Files = await db.File.Select(x => new FileViewModel()
-           
-            {
-                Id= x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Size_in_Bytes = x.Size_in_Bytes,
-                DateAdded = x.DateAdded
-
-
-
-            }).ToListAsync();
-
-            return model;
-        }
+       
         [HttpGet]
         public IActionResult GetAllFiles()
         {
 
            
 
-            var model = db.File.Select(x => new 
+            var model = db.Files.Select(x => new 
 
             {
                 Id = x.Id,
@@ -64,9 +45,9 @@ namespace DocumentServer.Controllers
             
             return Json (new { data = model});
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var ViewModel = await LoadAllFiles();
+            var ViewModel = new FileViewModel();
             ViewBag.Message = TempData["Message"];
             return View(ViewModel);
         }
@@ -100,15 +81,15 @@ namespace DocumentServer.Controllers
                         Name = fileName,
                         DateAdded = DateTime.Now,
                         FilePath = filePath,
-                        CreatedBy = 1025,
+                        UserId = 1025,
                         FileTypeId = 1,
                         ContentType = file.ContentType,
-                        User_File_GroupId= 1,
+                        UserGroupId = 1,
                         Size_in_Bytes = int.Parse(file.Length.ToString()),
                         Description = description,
                         FileName = outputFile,
                     };
-                    db.File.Add(fileModel);
+                    db.Files.Add(fileModel);
                     db.SaveChanges();
                    
                 }
@@ -120,7 +101,7 @@ namespace DocumentServer.Controllers
         public async Task<IActionResult> DownloadFile(int id)
         {
 
-            var file = await db.File.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var file = await db.Files.Where(x => x.Id == id).FirstOrDefaultAsync();
             EncryptFile.Decrypt(file.FileName, file.FilePath);
             var extension = Path.GetExtension(file.FilePath);
             if (file == null) return null;
@@ -143,7 +124,7 @@ namespace DocumentServer.Controllers
         public async Task<IActionResult> DeleteFile(int id)
         {
 
-            var file = await db.File.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var file = await db.Files.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (file != null)
             {
 
@@ -152,7 +133,7 @@ namespace DocumentServer.Controllers
                     System.IO.File.Delete(file.FileName);
                 }
                 var extension = Path.GetExtension(file.FilePath);
-                db.File.Remove(file);
+                db.Files.Remove(file);
                 db.SaveChanges();
                 TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
             }

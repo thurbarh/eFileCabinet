@@ -11,9 +11,9 @@ namespace DocumentServer.Models
         public string Name { get; set; }
         public DateTime DateAdded { get; set; }
         public string FilePath { get; set; }
-        public int CreatedBy { get; set; }
+        public int UserId { get; set; }
         public int FileTypeId { get; set; }
-        public int User_File_GroupId { get; set; }
+        public int UserGroupId { get; set; }
         public int Size_in_Bytes { get; set; }
         public string Description { get; set; }
         public string ContentType { get; set; }
@@ -22,6 +22,9 @@ namespace DocumentServer.Models
         public int EditedBy { get; set; }
         public string Comment { get; set; }
 
-
+        public virtual FileType FileType { get; set; }
+        public virtual User User { get; set; }
+        public virtual UserGroup UserGroup { get; set; }
+       
     }
 }

@@ -1,4 +1,4 @@
-﻿@model DocumentServer.Models.ViewModels.UploadViewModel;
+﻿@model DocumentServer.Models.ViewModels.FileViewModel;
 <body>
     @if (ViewBag.Message != null)
     {
@@ -50,26 +50,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        @*@foreach (var file in Model.Files)
-                            {
-
-                                <tr>
-
-                                    <td>@file.Name</td>
-
-                                    <td>@file.Description</td>
-                                    <td>@file.Size_in_Bytes</td>
-                                    <td>@file.DateAdded</td>
-                                    <td>
-                                        <a type="button" class="btn btn-primary btn-sm" asp-controller="File" asp-action="DownloadFile" asp-route-id="@file.Id">Download</a>
-                                    </td>
-                                    <td>
-                                        <a type="button" class="btn btn-danger btn-sm" asp-controller="File" asp-action="DeleteFile" asp-route-id="@file.Id">Delete</a>
-                                    </td>
-                                </tr>
-
-                            }*@
                     </tbody>
 
                 </table>
@@ -125,50 +105,7 @@
 
         } );
 
-        @*var orderUrl =
-               
-
-
-
-                    "ajax": {
-                        "url": orderUrl,
-                        "type": "GET",
-                        "datatype": "json"
-                    },
-
-                    "columns": [
-                        { "data": "Id", "name": "Id", "autoWidth": true },
-                        { "data": "Name", "name": "Name", "autoWidth": true },
-                        {
-                            "data": "Description", "name": "Description", "autoWidth": true
-
-                        },
-
-                        {
-                            "data": "Size_in_Bytes", "name": "Size_in_Bytes", "autoWidth": true
-
-                        },
-                                                {
-                            "data": "DateAdded", "name": "DateAdded", "autoWidth": true
-
-                        },
-                        {
-                            "data": "Download", "name": "Download", "autoWidth": true,
-                            "render": function (data, type, file, meta) {
-                                return '<a type="button" class="btn btn-primary btn-sm" asp-controller="File" asp-action="DownloadFile" asp-route-id="file.Id">Download</a>';
-                            }
-                        },
-                        {
-                            "data": "Delete", "name": "Delete", "autoWidth": true,
-                            "render": function (data, type, file, meta) {
-                                return '<a type="button" class="btn btn-danger btn-sm" asp-controller="File" asp-action="DeleteFile" asp-route-id="file.Id">Delete</a>';
-
-                            }
-                        }
-                    ]
-
-                })
-            });*@
+       
 
         </script>
      @*   <script src="plugins/table/datatable/datatables.js"></script>*@

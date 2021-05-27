@@ -23,22 +23,46 @@ namespace DocumentServer.Controllers
             viewModel.Users = await db.Users.Select(x => new UserViewModel
             {
                 Id = x.Id,
-                RoleId = x.RoleId,
                 Username = x.Username,
                 Password = x.Password,
-                FullName = x.FullName,
-               
-                User_File_GroupId = x.User_File_GroupId
-                
+                FullName = x.Fullname,
+
+                UserGroupId = x.UserGroupId
+
 
 
             }).ToListAsync();
             return viewModel;
 
         }
-        public async Task<IActionResult> IndexAsync()
+        [HttpGet]
+        public IActionResult GetAllUsers()
         {
-            var viewModel = await LoadAllUsers();
+
+
+
+            var model = db.Users.Select(x => new
+
+            {
+                Id = x.Id,  
+                Username = x.Username,
+                Password = x.Password,
+                Fullname = x.Fullname,
+                User_Group_Id = x.UserGroupId
+
+
+
+
+            }).ToList();
+
+
+
+            return Json(new { data = model });
+        }
+
+        public IActionResult Index()
+        {
+            var viewModel = new UserViewModel();
             ViewBag.Message = TempData["Message"];
             return View(viewModel);
 

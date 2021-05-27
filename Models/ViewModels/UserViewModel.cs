@@ -11,8 +11,6 @@ namespace DocumentServer.Models.ViewModels
         [Required]
         public int Id { get; set; }
 
-        [Required] 
-        public int RoleId { get; set; }
 
         [Required]
         public string Username { get; set; }
@@ -24,8 +22,8 @@ namespace DocumentServer.Models.ViewModels
         public string FullName { get; set; }
 
         [Required]
-        public int User_File_GroupId { get; set; }
+        public int UserGroupId { get; set; }
 
-        public string  Role { get; set; }
+       
     }
 }
