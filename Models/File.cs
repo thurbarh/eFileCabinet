@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocumentServer.Models
 {
-    public class FileModel
+    public class File
     {
         public int Id { get; set; }
         public string Name { get; set; }
