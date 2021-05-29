@@ -44,6 +44,7 @@
                             <th>Description</th>
                             <th>Size(bytes)</th>
                             <th>Date Added</th>
+                            <th>Added By</th>
                             <th>Download</th>
                             <th>Delete</th>
 
@@ -66,7 +67,7 @@
                 $('#fileList').DataTable({
            
                     "ajax": {
-                        "url":'@Url.Action("GetAllFiles", "File")',
+                        "url":'@Url.Action("getAllFiles", "File")',
                         "type": "GET",
                         "data": "json"
                             },
@@ -85,6 +86,9 @@
                         {
                             "data": "size_in_Bytes"
 
+                        },
+                        {
+                            "data": "user"
                         },
                         {
                             "data": "dateAdded" },

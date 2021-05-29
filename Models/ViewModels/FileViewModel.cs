@@ -17,7 +17,7 @@ namespace DocumentServer.Models.ViewModels
         [Required]
         public string FilePath { get; set; }
         [Required]
-        public int CreatedBy { get; set; }
+        public int UserId { get; set; }
         [Required]
         public int FileTypeId { get; set; }
         [Required]

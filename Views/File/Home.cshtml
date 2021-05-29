@@ -1,0 +1,125 @@
+﻿@model DocumentServer.Models.ViewModels.FileViewModel;
+<body>
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="custom-file-container" data-upload-id="mySecondImage">
+            <h4>Upload File</h4>
+
+
+            <label class="custom-file-container__custom-file">
+                <input type="file" name="files" class="custom-file-container__custom-file__custom-file-input" multiple required>
+
+            </label>
+
+
+            <input type="text" class="custom-description-container-control" autocomplete="off" placeholder="Enter File Description" name="description" />
+            <input asp-for="UserId" value="@Model.UserId" type="hidden" />
+            <button class="uploadbtn btn btn-dark " type="submit" asp-controller="File" asp-action="Upload">Upload</button>
+
+
+            <div hidden class="custom-file-container__image-preview"></div>
+        </div>
+
+
+    </form>
+
+
+    <div class="  layout-spacing">
+        <div class="widget-content widget-content-area br-6" style="font-size: large;">
+
+            <div class="table-responsive ">
+
+                <table id="fileList" class="table" style="width:100%">
+                    <thead>
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Size(bytes)</th>
+                            <th>Date Added</th>
+                            <th>Download</th>
+                            <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+    @section scripts{
+        <!-- DataTable SCRIPTS -->
+        <script>
+
+            $(document).ready(function () {
+                $('#fileList').DataTable({
+
+                    "ajax": {
+                        "url":'@Url.Action("getAllUserFiles", "File")/@Model.UserId',
+                        "type": "GET",
+                        "data": "json"
+                            },
+
+
+
+
+                    "columns": [
+
+                        { "data": "name"},
+                        {
+                            "data": "description"
+
+                        },
+
+                        {
+                            "data": "size_in_Bytes"
+
+                        },
+                        {
+                            "data": "dateAdded" },
+                        {
+
+                            "render": function (data, type, row, meta) {
+                                return '<a type="button" class="btn btn-primary btn-sm" href="/File/DownloadFile/'+row.id+'" >Download</a>';
+                            }
+                        },
+                        {
+                            "render": function (data, type, row, meta) {
+                                return '<a type="button" class="btn btn-danger btn-sm" href="/File/DeleteFile/' + row.id +'">Delete</a>';
+
+                            }
+                        }
+                    ]
+            });
+
+        } );
+
+
+
+        </script>
+        @*   <script src="plugins/table/datatable/datatables.js"></script>*@
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+        <!-- File Upload Scripts -->
+        <script src="assets/js/scrollspyNav.js"></script>
+        <script src="plugins/file-upload/file-upload-with-preview.min.js"></script>
+
+        <script>
+                        //First upload
+
+        </script>
+        <!-- PLUGINS -->
+
+    }
+</body>

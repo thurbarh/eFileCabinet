@@ -12,6 +12,7 @@ namespace DocumentServer.Models
         public string Password { get; set; }
         public string Fullname { get; set; }
         public int UserGroupId { get; set; }
+        public char  IsActive { get; set; }
 
 
         public virtual ICollection<File> Files { get; set; }

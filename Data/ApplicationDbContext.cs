@@ -18,7 +18,7 @@ namespace DocumentServer.Data
         public DbSet<GroupResource> Group_Resource { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserGroup> User_Group { get; set; }
+        public DbSet<UserGroup> UserGroup { get; set; }
     }
 }
  

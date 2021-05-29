@@ -23,11 +23,8 @@ namespace DocumentServer.Controllers
 
        
         [HttpGet]
-        public IActionResult GetAllFiles()
+        public IActionResult getAllFiles()
         {
-
-           
-
             var model = db.Files.Select(x => new 
 
             {
@@ -35,16 +32,33 @@ namespace DocumentServer.Controllers
                 Name = x.Name,
                 Description = x.Description,
                 Size_in_Bytes = x.Size_in_Bytes,
+                User = x.User.Fullname,
                 DateAdded = x.DateAdded.ToString("D")
-
-
-
             }).ToList();
-
-         
-            
-            return Json (new { data = model});
+          return Json (new { data = model});
         }
+
+        [HttpGet]
+        public IActionResult getAllUserFiles(int id)
+        {
+            var model = db.Files.Where(x=>x.UserId==id).Select(x => new
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Size_in_Bytes = x.Size_in_Bytes,
+                DateAdded = x.DateAdded.ToString("D")
+            }).ToList();
+            return Json(new { data = model });
+        }
+
+        public IActionResult UserFiles(int id)
+        {
+            var model = new FileViewModel();
+            model.UserId = id;
+            return View("Home",model);
+        }
+
         public IActionResult Index()
         {
             var ViewModel = new FileViewModel();
@@ -52,7 +66,54 @@ namespace DocumentServer.Controllers
             return View(ViewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Upload(List<IFormFile> files, string description)
+        public async Task<IActionResult> UploadFor(List<IFormFile> files, string description, int userId)
+        {
+            foreach (var file in files)
+            {
+                var basePath = Path.Combine("C:\\DocumentServer\\Files\\");
+                bool basePathExists = System.IO.Directory.Exists(basePath);
+                if (!basePathExists) Directory.CreateDirectory(basePath);
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                var filePath = Path.Combine(basePath, file.FileName);
+                var extension = Path.GetExtension(file.FileName);
+                if (!System.IO.File.Exists(filePath))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    string newName = Guid.NewGuid().ToString() + ".sbs";
+                    string outputFile = Path.Combine(basePath, newName);
+
+                    EncryptFile.Encrypt(filePath, outputFile);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    var fileModel = new Models.File
+                    {
+                        Name = fileName,
+                        DateAdded = DateTime.Now,
+                        FilePath = filePath,
+                        UserId = userId,
+                        FileTypeId = 1,
+                        ContentType = file.ContentType,
+                        UserGroupId = 1,
+                        Size_in_Bytes = int.Parse(file.Length.ToString()),
+                        Description = description,
+                        FileName = outputFile,
+                    };
+                    db.Files.Add(fileModel);
+                    db.SaveChanges();
+
+                }
+
+            }
+            TempData["Message"] = $"File(s) successfully uploaded.";
+            return RedirectToAction("Index");
+        }
+            [HttpPost]
+        public async Task<IActionResult> Upload(List<IFormFile> files, string description, int userId )
         {
             foreach (var file in files)
             {
@@ -81,7 +142,7 @@ namespace DocumentServer.Controllers
                         Name = fileName,
                         DateAdded = DateTime.Now,
                         FilePath = filePath,
-                        UserId = 1025,
+                        UserId = userId,
                         FileTypeId = 1,
                         ContentType = file.ContentType,
                         UserGroupId = 1,
@@ -95,8 +156,8 @@ namespace DocumentServer.Controllers
                 }
                  
             }
-            TempData["Message"] = "File successfully uploaded to File System.";
-            return RedirectToAction("Index");
+            TempData["Message"] = $"File(s) successfully uploaded.";
+            return RedirectToAction("UserFiles", new { id = userId });
         }
         public async Task<IActionResult> DownloadFile(int id)
         {

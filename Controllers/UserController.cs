@@ -1,4 +1,5 @@
 ﻿using DocumentServer.Data;
+using DocumentServer.Models;
 using DocumentServer.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,56 +18,110 @@ namespace DocumentServer.Controllers
         {
             this.db = db;
         }
-        private async Task<UserListViewModel> LoadAllUsers()
+
+        [HttpGet]
+        public async Task<IActionResult> getAllUsers()
         {
-            var viewModel = new UserListViewModel();
-            viewModel.Users = await db.Users.Select(x => new UserViewModel
+
+
+
+            var model = await db.Users.Where(x => x.IsActive == 'Y').Select(x => new
+
             {
                 Id = x.Id,
                 Username = x.Username,
                 Password = x.Password,
-                FullName = x.Fullname,
+                Fullname = x.Fullname,
+                Department = x.UserGroup.Name
 
-                UserGroupId = x.UserGroupId
 
 
 
             }).ToListAsync();
-            return viewModel;
-
-        }
-        [HttpGet]
-        public IActionResult GetAllUsers()
-        {
-
-
-
-            var model = db.Users.Select(x => new
-
-            {
-                Id = x.Id,  
-                Username = x.Username,
-                Password = x.Password,
-                Fullname = x.Fullname,
-                User_Group_Id = x.UserGroupId
-
-
-
-
-            }).ToList();
 
 
 
             return Json(new { data = model });
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new UserViewModel();
+            List<UserGroup> Departments = new List<UserGroup>();
+            Departments = await db.UserGroup.ToListAsync();
+            Departments.Insert(0, new UserGroup { Id = 0, Name = "Select" });
+            ViewBag.DeparmentList = Departments;
+
             ViewBag.Message = TempData["Message"];
             return View(viewModel);
 
-  
+
+        }
+
+        public async Task<IActionResult> CreateUser(UserViewModel newUser)
+        {
+            if (newUser != null)
+            {
+                var user = new User()
+                {
+                    Fullname = newUser.FullName,
+                    Username = newUser.Username,
+                    Password = newUser.Password,
+                    UserGroupId = newUser.UserGroupId,
+                    IsActive = 'Y'
+                };
+
+                await db.AddAsync(user);
+
+                if (await db.SaveChangesAsync() > 0)
+                {
+                    TempData["Message"] = $"{newUser.FullName} successfully added.";
+                }
+                else
+                {
+                    TempData["Message"] = "Something went wrong.";
+
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Invalid Request";
+
+            }
+            return RedirectToAction("Index");
+
+           
+
+        }
+
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+
+            var user = await db.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                user.IsActive = 'N';
+                var file = await db.Files.Where(x => x.UserId == id).FirstOrDefaultAsync();
+                file.Comment = $"This file was Created by already Deleted User('{user.Fullname}')";
+                if (db.SaveChanges() > 0)
+                {
+                    TempData["Message"] = $"{user.Fullname} successfully deleted.";
+                }
+                else
+                {
+                    TempData["Message"] = "Something went wrong.";
+
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Invalid Request";
+
+            }
+            return RedirectToAction("Index");
+
         }
     }
-}
+ }
+
+
