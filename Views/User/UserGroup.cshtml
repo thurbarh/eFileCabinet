@@ -8,7 +8,7 @@
 }
 
 <body>
-    <h4>Users</h4>
+    <h4>@Model.UserGroupName Users</h4>
     @if (ViewBag.Message != null)
     {
         <div class="alert alert-success alert-dismissible" style="margin-top:20px">
@@ -45,16 +45,16 @@
                             <div class="col">
 
                                 <label>Department</label>
-                                <select asp-for="UserGroupId"
-                                        asp-items="@(new SelectList(ViewBag.DeparmentList,"Id", "Name"))"
-                                        class="form-control"></select>
+                                <input value="@Model.UserGroupName" readonly  class="form-control"/>
                             </div>
                             <div class="col">
                                 <label asp-for="Password"></label>
                                 <input asp-for="Password" class="form-control">
                             </div>
                         </div>
-                        <button class="uploadbtn btn btn-dark " type="submit" asp-controller="User" asp-action="CreateUser">Add User</button>
+                        <input asp-for="UserGroupId" readonly value="@Model.UserGroupId" hidden />
+
+                        <button style="float:right" class="uploadbtn btn btn-dark " type="submit" asp-controller="User" asp-action="CreateGroupUser">Add User</button>
 
 
                     </form>
@@ -76,7 +76,6 @@
 
                         <tr>
                             <th>Full Name</th>
-                            <th>Department</th>
                             <th>UserName</th>
                             <th>Action</th>
                             <th>Delete</th>
@@ -104,7 +103,7 @@
                 $('#userList').DataTable({
 
                     "ajax": {
-                        "url":'@Url.Action("GetAllUsers", "User")',
+                        "url":'@Url.Action("GetAllUserGroupMembers", "User")/@Model.UserGroupId',
                         "type": "GET",
                         "data": "json"
                             },
@@ -115,10 +114,7 @@
                     "columns": [
 
                         { "data": "fullname"},
-                        {
-                            "data": "department"
-
-                        },
+                      
                         {
                             "data": "username"
                         },
@@ -131,7 +127,7 @@
                         },
                         {
                             "render": function (data, type, row, meta) {
-                                return '<a type="button" class="btn btn-danger btn-sm"  href="@Url.Action("DeleteUser","User")/' + row.id +'">Delete</a>';
+                                return '<a type="button" class="btn btn-danger btn-sm"  href="@Url.Action("DeleteGroupUser","User")/' + row.id +'">Delete</a>';
 
                             }
                         }

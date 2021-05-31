@@ -1,4 +1,4 @@
-﻿@model DocumentServer.Models.ViewModels.UserViewModel;
+﻿@model DocumentServer.Models.ViewModels.UserGroupViewModel;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -15,9 +15,9 @@
             @ViewBag.Message
         </div>
     }
-    <button class="btn btn-dark" data-toggle="modal" data-target="#newUserModal">Add New User</button>
+    <button class="btn btn-dark" data-toggle="modal" data-target="#newUserGroupModal">Add New User</button>
 
-    <div class="modal fade" id="newUserModal" role="dialog" tabindex="-1">
+    <div class="modal fade" id="newUserGroupModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,29 +33,15 @@
                     <form>
                         <div class="row mb-4">
                             <div class="col">
-                                <label asp-for="FullName"></label>
-                                <input asp-for="FullName" class="form-control">
+                                <label asp-for="Name"></label>
+                                <input asp-for="Name" class="form-control">
                             </div>
                             <div class="col">
-                                <label asp-for="Username"></label>
-                                <input asp-for="Username" class="form-control">
+                                <button class="uploadbtn btn btn-dark " type="submit" asp-controller="UserGroup" asp-action="CreateUserGroup">Add User</button>
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <div class="col">
-
-                                <label>Department</label>
-                                <select asp-for="UserGroupId"
-                                        asp-items="@(new SelectList(ViewBag.DeparmentList,"Id", "Name"))"
-                                        class="form-control"></select>
-                            </div>
-                            <div class="col">
-                                <label asp-for="Password"></label>
-                                <input asp-for="Password" class="form-control">
-                            </div>
-                        </div>
-                        <button class="uploadbtn btn btn-dark " type="submit" asp-controller="User" asp-action="CreateUser">Add User</button>
-
+                       
+                        
 
                     </form>
 
@@ -75,10 +61,9 @@
                     <thead>
 
                         <tr>
-                            <th>Full Name</th>
-                            <th>Department</th>
-                            <th>UserName</th>
-                            <th>Action</th>
+                            <th>Department Name</th>
+                            <th>Files</th>
+                            <th>Users</th>
                             <th>Delete</th>
                         </tr>
 
@@ -104,7 +89,7 @@
                 $('#userList').DataTable({
 
                     "ajax": {
-                        "url":'@Url.Action("GetAllUsers", "User")',
+                        "url":'@Url.Action("GetAllUserGroups", "UserGroup")',
                         "type": "GET",
                         "data": "json"
                             },
@@ -114,24 +99,27 @@
 
                     "columns": [
 
-                        { "data": "fullname"},
-                        {
-                            "data": "department"
 
-                        },
                         {
-                            "data": "username"
+                            "data": "name"
+
                         },
 
                         {
                             "render": function (data, type, row, meta) {
-                                return '<a type="button" class="btn btn-primary btn-sm" href="@Url.Action("UserFiles","File")/' + row.id + '">View Files</a>';
+                                return '<a type="button" class="btn btn-primary btn-sm" href="@Url.Action("UserGroupFiles","File")/' + row.id + '">View Files</a>';
 
                             }
                         },
                         {
                             "render": function (data, type, row, meta) {
-                                return '<a type="button" class="btn btn-danger btn-sm"  href="@Url.Action("DeleteUser","User")/' + row.id +'">Delete</a>';
+                                return '<a type="button" class="btn btn-primary btn-sm" href="@Url.Action("UserGroupMembers","User")/' + row.id + '">View Users</a>';
+
+                            }
+                        },
+                        {
+                            "render": function (data, type, row, meta) {
+                                return '<a type="button" class="btn btn-danger btn-sm" href="@Url.Action("DeleteUserGroup","UserGroup")/' + row.id +'">Delete</a>';
 
                             }
                         }

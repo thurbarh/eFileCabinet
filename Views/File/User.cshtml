@@ -21,7 +21,7 @@
 
             <input type="text" class="custom-description-container-control" autocomplete="off" placeholder="Enter File Description" name="description" />
             <input asp-for="UserId" value="@Model.UserId" type="hidden" />
-            <button class="uploadbtn btn btn-dark " type="submit" asp-controller="File" asp-action="Upload">Upload</button>
+            <button class="uploadbtn btn btn-dark " type="submit" asp-controller="File" asp-action="UserUpload">Upload</button>
 
 
             <div hidden class="custom-file-container__image-preview"></div>
@@ -32,6 +32,7 @@
 
 
     <div class="  layout-spacing">
+       
         <div class="widget-content widget-content-area br-6" style="font-size: large;">
 
             <div class="table-responsive ">
@@ -66,7 +67,7 @@
                 $('#fileList').DataTable({
 
                     "ajax": {
-                        "url":'@Url.Action("getAllUserFiles", "File")/@Model.UserId',
+                        "url":'@Url.Action("GetAllUserFiles", "File")/@Model.UserId',
                         "type": "GET",
                         "data": "json"
                             },
@@ -91,12 +92,12 @@
                         {
 
                             "render": function (data, type, row, meta) {
-                                return '<a type="button" class="btn btn-primary btn-sm" href="/File/DownloadFile/'+row.id+'" >Download</a>';
+                                return '<a type="button" class="btn btn-primary btn-sm" href="@Url.Action("DownloadFile","File")/'+row.id+'" >Download</a>';
                             }
                         },
                         {
                             "render": function (data, type, row, meta) {
-                                return '<a type="button" class="btn btn-danger btn-sm" href="/File/DeleteFile/' + row.id +'">Delete</a>';
+                                return '<a type="button" class="btn btn-danger btn-sm" href="@Url.Action("DeleteUserFile","File")/' + row.id +'">Delete</a>';
 
                             }
                         }

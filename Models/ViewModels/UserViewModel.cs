@@ -24,6 +24,8 @@ namespace DocumentServer.Models.ViewModels
         [Required]
         public int UserGroupId { get; set; }
 
-       
+        public string UserGroupName { get; set; }
+
+
     }
 }

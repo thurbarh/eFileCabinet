@@ -20,7 +20,7 @@ namespace DocumentServer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
 
 
@@ -32,23 +32,36 @@ namespace DocumentServer.Controllers
                 Username = x.Username,
                 Password = x.Password,
                 Fullname = x.Fullname,
-                Department = x.UserGroup.Name
-
-
-
-
+               Department = x.UserGroup.Name
             }).ToListAsync();
 
 
 
             return Json(new { data = model });
         }
+        public async Task<IActionResult> GetAllUserGroupMembers(int id)
+        {
 
+
+
+            var model = await db.Users.Where(x => x.IsActive == 'Y').Where(x=>x.UserGroupId==id).Select(x => new
+
+            {
+                Id = x.Id,
+                Username = x.Username,
+                Password = x.Password,
+                Fullname = x.Fullname,
+                Department = x.UserGroup.Name
+            }).ToListAsync();
+
+
+
+            return Json(new { data = model });
+        }
         public async Task<IActionResult> Index()
         {
             var viewModel = new UserViewModel();
-            List<UserGroup> Departments = new List<UserGroup>();
-            Departments = await db.UserGroup.ToListAsync();
+            List<UserGroup> Departments = await db.UserGroup.ToListAsync();
             Departments.Insert(0, new UserGroup { Id = 0, Name = "Select" });
             ViewBag.DeparmentList = Departments;
 
@@ -56,6 +69,16 @@ namespace DocumentServer.Controllers
             return View(viewModel);
 
 
+        }
+
+        public IActionResult UserGroupMembers(int id)
+        {
+            var model = new UserViewModel
+            {
+                UserGroupId = id,
+                UserGroupName = db.UserGroup.Where(x => x.Id == id).FirstOrDefault().Name
+            };
+            return View("UserGroup", model);
         }
 
         public async Task<IActionResult> CreateUser(UserViewModel newUser)
@@ -93,6 +116,41 @@ namespace DocumentServer.Controllers
            
 
         }
+        public async Task<IActionResult> CreateGroupUser(UserViewModel newUser)
+        {
+            if (newUser != null)
+            {
+                var user = new User()
+                {
+                    Fullname = newUser.FullName,
+                    Username = newUser.Username,
+                    Password = newUser.Password,
+                    UserGroupId = newUser.UserGroupId,
+                    IsActive = 'Y'
+                };
+
+                await db.AddAsync(user);
+
+                if (await db.SaveChangesAsync() > 0)
+                {
+                    TempData["Message"] = $"{newUser.FullName} successfully added.";
+                }
+                else
+                {
+                    TempData["Message"] = "Something went wrong.";
+
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Invalid Request";
+
+            }
+            return RedirectToAction("UserGroupMembers",new { id = newUser.UserGroupId});
+
+
+
+        }
 
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -101,8 +159,11 @@ namespace DocumentServer.Controllers
             if (user != null)
             {
                 user.IsActive = 'N';
-                var file = await db.Files.Where(x => x.UserId == id).FirstOrDefaultAsync();
-                file.Comment = $"This file was Created by already Deleted User('{user.Fullname}')";
+                var userFiles = await db.Files.Where(x => x.UserId == id).ToListAsync();
+                foreach (var file in userFiles)
+                {
+                    file.Comment = $"This file was Created by already Deleted User('{user.Fullname}')";
+                }
                 if (db.SaveChanges() > 0)
                 {
                     TempData["Message"] = $"{user.Fullname} successfully deleted.";
@@ -119,6 +180,36 @@ namespace DocumentServer.Controllers
 
             }
             return RedirectToAction("Index");
+
+        }
+        public async Task<IActionResult> DeleteGroupUser(int id)
+        {
+
+            var user = await db.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                user.IsActive = 'N';
+                var userFiles = await db.Files.Where(x => x.UserId == id).ToListAsync();
+                foreach (var file in userFiles)
+                {
+                    file.Comment = $"This file was Created by already Deleted User('{user.Fullname}')";
+                }
+                if (db.SaveChanges() > 0)
+                {
+                    TempData["Message"] = $"{user.Fullname} successfully deleted.";
+                }
+                else
+                {
+                    TempData["Message"] = "Something went wrong.";
+
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Invalid Request";
+
+            }
+            return RedirectToAction("UserGroupMembers", new { id = user.UserGroupId });
 
         }
     }

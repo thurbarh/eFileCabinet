@@ -32,6 +32,7 @@ namespace DocumentServer.Models.ViewModels
         public DateTime LastEditDate { get; set; }
         public int EditedBy { get; set; }
 
+        public string _dateAdded { get; set; }
         public string Comment { get; set; }
     }
 }

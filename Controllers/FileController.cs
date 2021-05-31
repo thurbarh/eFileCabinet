@@ -1,4 +1,4 @@
-﻿using DocumentServer.Data;
+﻿    using DocumentServer.Data;
 using DocumentServer.Models;
 using DocumentServer.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +23,7 @@ namespace DocumentServer.Controllers
 
        
         [HttpGet]
-        public IActionResult getAllFiles()
+        public IActionResult GetAllFiles()
         {
             var model = db.Files.Select(x => new 
 
@@ -39,7 +39,7 @@ namespace DocumentServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult getAllUserFiles(int id)
+        public IActionResult GetAllUserFiles(int id)
         {
             var model = db.Files.Where(x=>x.UserId==id).Select(x => new
             {
@@ -51,12 +51,40 @@ namespace DocumentServer.Controllers
             }).ToList();
             return Json(new { data = model });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllGroupFiles(int id)
+            
+        {
+            var model = await db.Files.Where(x => x.UserGroupId == id).Select(x => new
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Name,
+                Size_in_Bytes = x.Size_in_Bytes,
+                _dateAdded = x.DateAdded.ToString("D")
+            }).ToListAsync();            
+
+            return Json(new { data = model });
+        }
+
+        public IActionResult UserGroupFiles(int id)
+        {
+            var model = new UserGroupViewModel
+            {
+                Id = id,
+                Name = db.UserGroup.Where(x => x.Id == id).FirstOrDefault().Name
+            };
+            return View("UserGroup",model);
+        }
+
 
         public IActionResult UserFiles(int id)
         {
-            var model = new FileViewModel();
-            model.UserId = id;
-            return View("Home",model);
+            var model = new FileViewModel
+            {
+                UserId = id
+            };
+            return View("User",model);
         }
 
         public IActionResult Index()
@@ -66,7 +94,7 @@ namespace DocumentServer.Controllers
             return View(ViewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> UploadFor(List<IFormFile> files, string description, int userId)
+        public async Task<IActionResult> Upload(List<IFormFile> files, string description, int userId)
         {
             foreach (var file in files)
             {
@@ -113,7 +141,7 @@ namespace DocumentServer.Controllers
             return RedirectToAction("Index");
         }
             [HttpPost]
-        public async Task<IActionResult> Upload(List<IFormFile> files, string description, int userId )
+        public async Task<IActionResult> UserUpload(List<IFormFile> files, string description, int userId )
         {
             foreach (var file in files)
             {
@@ -199,6 +227,44 @@ namespace DocumentServer.Controllers
                 TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
             }
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> DeleteUserFile(int id)
+        {
+
+            var file = await db.Files.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (file != null)
+            {
+
+                if (System.IO.File.Exists(file.FileName))
+                {
+                    System.IO.File.Delete(file.FileName);
+                }
+                var extension = Path.GetExtension(file.FilePath);
+                db.Files.Remove(file);
+                db.SaveChanges();
+                TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
+            }
+            return RedirectToAction("UserFiles", new { id = file.UserId });
+
+        }
+        public async Task<IActionResult> DeleteUserGroupFile(int id)
+        {
+
+            var file = await db.Files.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (file != null)
+            {
+
+                if (System.IO.File.Exists(file.FileName))
+                {
+                    System.IO.File.Delete(file.FileName);
+                }
+                var extension = Path.GetExtension(file.FilePath);
+                db.Files.Remove(file);
+                db.SaveChanges();
+                TempData["Message"] = $"Removed {file.Name + extension} successfully from File System.";
+            }
+            return RedirectToAction("UserGroupFiles", new { id = file.UserGroupId });
+
         }
 
     }

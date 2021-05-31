@@ -6,6 +6,7 @@ namespace DocumentServer.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public char IsActive { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<GroupResource> GroupResource { get; set; }
